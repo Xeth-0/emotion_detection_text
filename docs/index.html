@@ -1,34 +1,36 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="./static/script.js">
-    </script>
-    <style>
-        .center-heading {
-            text-align: center;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP - Emotion Detection</title>
+    <link rel="stylesheet" href="./static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="./static/script.js" defer></script>
 </head>
 <body>
-    <div class="card">
-        <div class="card-body">
-            <h1 class="center-heading">NLP - Emotion Detection</h1> 
-            <div style="padding: 25px 25px 25px 25px;">
-            <h2 class="mb-3">
-                <label class="form-label">Please enter the text to be analyzed</label>
-                <input type="textarea" class="form-control" id="textToAnalyze">
-            </h2>
-
-            <div style="padding: 25px 25px 25px 25px;">
-                <button onclick="RunSentimentAnalysis()" class="btn btn-secondary">Run Sentiment Analysis</button>
-            </div>
-            <div style="padding: 25px 25px 25px 25px;"></div>
-            <h2 class="mb-3">
-                <label class="form-label">Result of Emotion Detection</label>
-            </h2>
-
-            <div id="system_response" style="padding: 25px 25px 25px 25px;"></div>
-        </div>
+    <div class="container">
+        <header>
+            <h1>NLP - Emotion Detection</h1>
+        </header>
+        <main>
+            <section class="input-section">
+                <h2>Enter text to analyze</h2>
+                <textarea id="textToAnalyze" placeholder="Type or paste your text here..."></textarea>
+                <button onclick="runSentimentAnalysis()" id="analyzeButton">Analyze Sentiment</button>
+            </section>
+            <section class="result-section">
+                <h2>Emotion Detection Result</h2>
+                <p id="loadingExcuse" class="loading-excuse hidden">
+                    Please wait while we run the detection. (The server is deployed on a serverless provider for free, and requires a cold start. This runs much faster locally.)
+                </p>
+                <div id="loadingIndicator" class="loading-indicator hidden"></div>
+                <div id="system_response"></div>
+            </section>
+        </main>
+        <footer>
+        </footer>
     </div>
 </body>
 </html>
+

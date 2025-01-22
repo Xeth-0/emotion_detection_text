@@ -1,47 +1,68 @@
-async function RunSentimentAnalysis() {
-    const textToAnalyze = document.getElementById("textToAnalyze").value;
-    const responseDiv = document.getElementById("system_response");
+async function runSentimentAnalysis() {
+  const textToAnalyze = document.getElementById("textToAnalyze").value;
+  const responseDiv = document.getElementById("system_response");
+  const loadingIndicator = document.getElementById("loadingIndicator");
+  const loadingExcuse = document.getElementById("loadingExcuse");
+  const analyzeButton = document.getElementById("analyzeButton");
 
-    if (!textToAnalyze) {
-        responseDiv.innerHTML = "Please enter some text to analyze.";
-        return;
+  if (!textToAnalyze) {
+    responseDiv.innerHTML =
+      "<p class='error'>Please enter some text to analyze.</p>";
+    return;
+  }
+
+  // Show loading indicator and disable button
+  loadingIndicator.classList.remove("hidden");
+  loadingExcuse.classList.remove("hidden");
+  analyzeButton.disabled = true;
+  responseDiv.innerHTML = "";
+
+  try {
+    const url = "https://emotion-detection-text.onrender.com";
+    const response = await fetch(
+      `${url}/predict?text=${encodeURIComponent(textToAnalyze)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.text();
+
+    if (response.ok) {
+      const result = JSON.parse(data);
+      responseDiv.innerHTML = `
+                  <h3>Top Emotion: <span class="emotion">${
+                    result.top_emotion
+                  }</span></h3>
+                  <h4>Probabilities:</h4>
+                  <ul>
+                      ${Object.entries(result.probabilities)
+                        .map(
+                          ([emotion, probability]) => `
+                          <li><strong>${emotion}:</strong> ${(
+                            probability * 100
+                          ).toFixed(2)}%</li>
+                      `
+                        )
+                        .join("")}
+                  </ul>
+              `;
+    } else {
+      responseDiv.innerHTML = `<p class='error'>Error: ${
+        data.detail || "An unexpected error occurred."
+      }</p>`;
     }
-
-    console.log("Running sentiment analysis...")
-    console.log("Text: ", textToAnalyze)
-
-    
-    try {
-        const url = "https://emotion-detection-text.onrender.com"
-        const localUrl = "http://127.0.0.1:8000"
-        const response = await fetch(`${url}/predict?text=${encodeURIComponent(textToAnalyze)}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        console.log(response)
-        const data = await response.text(); // Change to text() to handle unexpected end of response
-
-        console.log(data)
-        if (response.ok) {
-            const result = JSON.parse(data);
-            responseDiv.innerHTML = `
-                <h3>Emotion Detection Result:</h3>
-                <p>Top Emotion: ${result.top_emotion}</p>
-                <p>Probabilities:</p>
-                <ul>
-                    ${Object.entries(result.probabilities).map(([emotion, probability]) => `
-                        <li>${emotion}: ${probability.toFixed(2)}</li>
-                    `).join('')}
-                </ul>
-            `;
-        } else {
-            responseDiv.innerHTML = "Error: " + data.detail;
-        }
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        responseDiv.innerHTML = "An error occurred while fetching the data.";
-    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    responseDiv.innerHTML =
+      "<p class='error'>An error occurred while fetching the data. Please try again later.</p>";
+  } finally {
+    // Hide loading indicator and enable button
+    loadingIndicator.classList.add("hidden");
+    loadingExcuse.classList.add("hidden");
+    analyzeButton.disabled = false;
+  }
 }
