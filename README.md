@@ -17,6 +17,8 @@ The server for running application is deployed on Render, a cloud platform that 
 ## Usage
 To use the emotion detection service, you can access the web interface at [https://xeth-0.github.io/emotion_detection_text/]. It can classify both single sentences or paragraphs and outputs the detected emotion and the probabilities for that prediction.
 
+![alt text](./docs/image-1.png)
+![alt text](./docs/image.png)
 ## Web Page
 You can find the web page for this project hosted on GitHub Pages at: [https://xeth-0.github.io/emotion_detection_text/].
 
