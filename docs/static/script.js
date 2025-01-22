@@ -12,7 +12,9 @@ async function RunSentimentAnalysis() {
 
     
     try {
-        const response = await fetch(`http://127.0.0.1:8000/predict?text=${encodeURIComponent(textToAnalyze)}`, {
+        const url = "https://emotion-detection-text.onrender.com"
+        const localUrl = "http://127.0.0.1:8000"
+        const response = await fetch(`${url}/predict?text=${encodeURIComponent(textToAnalyze)}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
