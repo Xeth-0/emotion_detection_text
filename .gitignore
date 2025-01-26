@@ -1,3 +1,6 @@
 **/scratch/
 **.bat
 **.sh
+**/venv/
+
+**/test.*

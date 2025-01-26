@@ -19,6 +19,7 @@ async function runSentimentAnalysis() {
 
   try {
     const url = "https://emotion-detection-text.onrender.com";
+    // const url = "http://127.0.0.1:8000"
     const response = await fetch(
       `${url}/predict?text=${encodeURIComponent(textToAnalyze)}`,
       {

@@ -1,4 +1,9 @@
-nltk
-joblib
 fastapi
 uvicorn
+cloudpickle
+nltk
+scipy
+scikit-learn
+neattext
+spacy
+pathlib
